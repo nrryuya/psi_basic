@@ -1,4 +1,4 @@
-・"janome","gensim","numpy"などを、インポートして使います。
+・"janome","gensim"を、インポートして使います。
 
 ・".py"ファイルが二つありますが、
 　"text_analyzer.py"		...ソースコードが入ってる
