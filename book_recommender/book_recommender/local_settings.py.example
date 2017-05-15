@@ -1,0 +1,7 @@
+SECRET_KEY = 'xxxx'
+
+DATABASE_NAME = 'xxxx'
+DATABASE_USER = 'xxxx'
+DATABASE_PASSWORD = 'xxxx'
+DATABASE_HOST = 'localhost'
+DATABASE_PORT = ''

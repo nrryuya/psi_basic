@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+*.pyc
+.idea/*
+.DS_Store
+.vscode/*
+local_settings.py
+.python-version
