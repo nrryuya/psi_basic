@@ -115,23 +115,13 @@
 
     <div class="container">
      <div class="row">
-         <div class="col-lg-2">
-             <ul class="list-group">
-             {% for site in sites %}
-               <li class="list-group-item">
-                 <span class="badge">{{ unconfirmed_num_dict|return_item:site.id }}</span>
-                    <a href="{% url 'result:article_list' site_id=site.id %}">{{ site.name }}</a>
-               </li>
-             {% endfor %}
-             </ul>
-         </div>
-          <div class="col-lg-8">
+          <div class="col-lg-10">
               {% block content %}
               {{ content }}
               {% endblock %}
           </div>
           <div class="col-lg-2">
-              {# ここにGoogle AdSenseとか#}
+              {# ここにGoogle AdSenseとか入れる#}
           </div>
     </div>
     </div>
