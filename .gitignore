@@ -94,3 +94,11 @@ ENV/
 .vscode/*
 local_settings.py
 .python-version
+
+# screen shots
+login-modal.png
+clicked-login-btn.png
+written-form.png
+
+# fastText model
+model.vec

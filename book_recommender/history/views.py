@@ -3,17 +3,18 @@ from readability.readability import Document
 import re
 from bs4 import BeautifulSoup
 import requests
-from history.np_scraper import vectorize_user
+from history.user2vec import vectorize_user
 from history.recommender import recommend
 
 
 # NewsPicksのアカウントURLを受け取っておすすめ書籍のリストを表示するメソッド
-def recommend_books(requests):
+# TODO; celeryで非同期処理する
+def recommend_books(request):
     url = request.POST['url']
-    vector = vectorize_user(url)
-    books = recommend(vector)
-    # TODO: ここに処理を書き、必要な値をcontenxtに入れて返す
-    context = {}
+    user_vector = vectorize_user(url)
+    # {'name': 本の名前, 'rakuten_url': 楽天ブックスのURL, 'rakuten_category': 楽天ブックスのカテゴリ, 'score': コサイン類似度}という辞書のリストが返される。
+    books = recommend(user_vector)
+    context = {'books': books}
     return render(request, 'history/result.html', context)
 
 

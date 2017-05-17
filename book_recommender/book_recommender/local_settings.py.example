@@ -5,3 +5,5 @@ DATABASE_USER = 'xxxx'
 DATABASE_PASSWORD = 'xxxx'
 DATABASE_HOST = 'localhost'
 DATABASE_PORT = ''
+
+MECAB_PATH = 'xxxx'
