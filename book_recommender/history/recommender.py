@@ -19,6 +19,7 @@ def recommend(user_vector):
     rakuten_categories_df = pd.DataFrame(
         {'rakuten_category': Book.objects.values('rakuten_category')})
 
+    # TODO: コサイン類似度の計算
     vector_list = map(lambda x: ','.join(x), list(Book.objects.values('vector')))
     scores_df = pd.DataFrame({'score': map(lambda x: x, vector_list)})
 
