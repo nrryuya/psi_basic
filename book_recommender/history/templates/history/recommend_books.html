@@ -3,7 +3,7 @@
 
 {% block content %}
 {% if worked %}
-<h3 class="page-header">{{ url }} のおすすめ書籍一覧</h3>
+<h3 class="page-header">{{ username }} さんのおすすめ書籍一覧</h3>
 {% else %}
 <h3 class="page-header">不具合が発生しました。もう一度お試しください。</h3>
 {% endif %}
@@ -28,6 +28,6 @@
  {% endfor %}
   </tbody>
 </table>
-<a href="{% url 'history:send_account' %}" class="btn btn-default btn-sm">戻る</a>
+<div><a href="{% url 'history:send_account' %}" class="btn btn-default btn-sm">戻る</a></div>
 
 {% endblock %}

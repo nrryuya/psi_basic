@@ -3,6 +3,7 @@ from readability.readability import Document
 import re
 from bs4 import BeautifulSoup
 import requests
+from history.np_scraper import login_np, get_username, get_picked_articles
 from history.user2vec import *
 from history.recommender import recommend
 
@@ -11,7 +12,10 @@ from history.recommender import recommend
 # TODO: celeryで非同期処理する
 def recommend_books(request):
     url = request.POST['url']
-    user_vector = vectorize_user(url)
+    driver = login_np(url)
+    username = get_username(driver)
+    titles_df = get_picked_articles(driver)
+    user_vector = vectorize_user(titles_df)
     # {'name': 本の名前, 'rakuten_url': 楽天ブックスのURL, 'rakuten_category': 楽天ブックスのカテゴリ, 'score': コサイン類似度}という辞書のリストが返される。
     try:
         books = recommend(user_vector)
@@ -20,7 +24,7 @@ def recommend_books(request):
         books = [{'name': "本の名前", 'rakuten_url': "http://books.rakuten.co.jp/",
                   'rakuten_category': "楽天ブックスのカテゴリ", 'score': "コサイン類似度"}]
         worked = False
-    context = {'books': books, 'url': url, 'worked': worked}
+    context = {'books': books, 'username': username, 'worked': worked}
     return render(request, 'history/recommend_books.html', context)
 
 

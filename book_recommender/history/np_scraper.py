@@ -14,7 +14,8 @@ login_url = 'https://newspicks.com'
 SCROLL_PAUSE_TIME = 5.0
 
 
-def login_np():
+# NewsPicksにログインし、user_urlのページに行くところまで
+def login_np(user_url):
     #############
     # user agent
     user_agent = 'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36'
@@ -43,12 +44,16 @@ def login_np():
     driver.find_element_by_class_name('login-btn').click()  # ログインボタン押下
     driver.save_screenshot('clicked-login-btn.png')
     print("logined")
+    driver.get(user_url)  # 過去Pick記事一覧
     return driver
 
 
-def get_picked_articles(user_url):
-    driver = login_np()
-    driver.get(user_url)  # 過去Pick記事一覧
+def get_username(driver):
+    username = driver.find_element_by_class_name('username').text
+    return username
+
+
+def get_picked_articles(driver):
 
     # Get scroll height
     last_height = driver.execute_script("return document.body.scrollHeight")

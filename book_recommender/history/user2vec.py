@@ -2,7 +2,7 @@ import MeCab
 import gensim
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from history.np_scraper import get_picked_articles
+from history.np_scraper import login_np, get_picked_articles
 from book_recommender.local_settings import MECAB_PATH
 
 # TODO: 毎回ロードすると遅い気がする。Djangoサーバーが起動している間常に変数を保持できないのか。
@@ -41,8 +41,7 @@ def text2vec(text):
 
 
 # Picked記事のタイトルの分散表現の平均によるユーザーベクトルを作る
-def vectorize_user(user_url):
-    titles_df = get_picked_articles(user_url)
+def vectorize_user(titles_df):
     titles_df['vectorized_title'] = titles_df['title'].apply(text2vec)
     vector = np.zeros(300)
     count = 0
@@ -55,7 +54,8 @@ def vectorize_user(user_url):
 
 # Picked記事のタイトルとその分散表現のDataFrameを返す。クラスタリングの実験用。
 def get_title_vectors(user_url):
-    titles_df = get_picked_articles(user_url)
+    driver = login_np(user_url)
+    titles_df = get_picked_articles(driver)
     titles_df['vectorized_title'] = titles_df['title'].apply(text2vec)
     return titles_df
 
