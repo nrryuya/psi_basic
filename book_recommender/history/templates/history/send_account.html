@@ -4,6 +4,28 @@
 {% block content %}
 <h3 class="page-header">NewsPicksアカウントURLの送信</h3>
 {# 以下にhtmlを書く#}
+<form action="{% url 'history:recommend_books' %}" method="POST" role="form">
+  {% csrf_token %}
+  <!-- <fieldset> -->
+    <!-- <legend>NewsPicksアカウントURLの送信</legend> -->
+    <div class="form-group">
+      <label class="col-lg-2 control-label" for="inputURL">Account URL</label>
+      <div class="col-lg-10">
+        <input type="url" name='url' class="form-control" id="inputAccountURL" placeholder="Please write your account url">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox"> Check me out
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-lg-10 col-lg-offset-2">
+        <button type="submit" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+  <!-- </fieldset> -->
+</form>
 
 
 {% endblock %}
