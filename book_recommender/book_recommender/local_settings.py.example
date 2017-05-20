@@ -7,3 +7,6 @@ DATABASE_HOST = 'localhost'
 DATABASE_PORT = ''
 
 MECAB_PATH = 'xxxx'
+
+NEWSPICKS_ID = 'xxxx'
+NEWSPICKS_PW = 'xxxx'

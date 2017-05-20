@@ -1,10 +1,11 @@
 import MeCab
 import gensim
 import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 from history.np_scraper import get_picked_articles
 from book_recommender.local_settings import MECAB_PATH
 
-# TODO: 毎回ロードすると遅い気がする
+# TODO: 毎回ロードすると遅い気がする。Djangoサーバーが起動している間常に変数を保持できないのか。
 m = MeCab.Tagger(MECAB_PATH)
 m.parse('')
 model = gensim.models.KeyedVectors.load_word2vec_format('history/model.vec', binary=False)
@@ -34,7 +35,7 @@ def text2vec(text):
         except:
             continue
     if count == 0:
-        return 0
+        return np.zeros(300)
     else:
         return vec / count
 
@@ -49,4 +50,26 @@ def vectorize_user(user_url):
         vector += title_vec
         count += 1
     vector = vector / count
-    return vector
+    return vector.reshape(1, -1)
+
+
+# Picked記事のタイトルとその分散表現のDataFrameを返す。クラスタリングの実験用。
+def get_title_vectors(user_url):
+    titles_df = get_picked_articles(user_url)
+    titles_df['vectorized_title'] = titles_df['title'].apply(text2vec)
+    return titles_df
+
+
+def make_cosine_sim_matrix(titles_df):  # 記事同士のコサイン類似度の二次元リスト
+    matrix = []
+    i = 0
+    for vector1 in titles_df['vectorized_title']:
+        matrix.append([])
+        for vector2 in titles_df['vectorized_title']:
+            score = cosine_similarity(vector1.reshape(1, -1), vector2.reshape(1, -1))
+            matrix[i].append(score)
+        i += 1
+    return matrix
+
+# 記事のベクトルのリストをクラスタリング
+# def clustering_titles(titles_df):
