@@ -3,12 +3,13 @@ from bs4 import BeautifulSoup
 # import requests
 import time
 from selenium import webdriver
+from local_settings import NEWSPICKS_ID, NEWSPICKS_PW
 # from selenium.webdriver.common.by import By
 # from selenium.webdriver.support.ui import WebDriverWait
 # from selenium.webdriver.support import expected_conditions as ec
 
-id = 'nrryuya-1@yahoo.co.jp'
-pw = 'Hardthings1'
+id = NEWSPICKS_ID
+pw = NEWSPICKS_PW
 login_url = 'https://newspicks.com'
 SCROLL_PAUSE_TIME = 5.0
 
