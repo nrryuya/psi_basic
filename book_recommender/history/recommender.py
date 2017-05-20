@@ -9,10 +9,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 def recommend(user_vector):
     names = Book.objects.values_list('name', flat=True)
     rakuten_urls = Book.objects.values_list('rakuten_url', flat=True)
-    rakuten_categories = Book.objects.values_list('rakuten_url', flat=True)
+    rakuten_categories = Book.objects.values_list('rakuten_category', flat=True)
     vectors = list(map(lambda x: np.array(list(map(float, x.split(',')))),
                        Book.objects.values_list('vector', flat=True)))
-    scores = list(map(lambda x: cosine_similarity(x.reshape(1, -1), user_vector), vectors))
+    scores = list(map(lambda x: cosine_similarity(x.reshape(1, -1), user_vector)[0][0], vectors))
 
     books = []
 
@@ -21,7 +21,7 @@ def recommend(user_vector):
                       'rakuten_category': rakuten_category, 'score': score})
 
     # 上位10件
-    recommend_books = sorted(books, key=lambda x: -x['score'])[0:10]
+    recommended_books = sorted(books, key=lambda x: -x['score'])[0:10]
     return recommended_books
 
 

@@ -9,7 +9,7 @@
     {# ショートカットのアイコン#}
     {# <link rel="shortcut icon" href="{% static 'accounts/img/favicon.ico' %}">#}
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>{% block title %}Book Recommender(仮){% endblock %}</title>
+    <title>{% block title %}Book Recommender{% endblock %}</title>
 
     <!-- Bootstrap -->
     {# <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">#}
@@ -101,7 +101,7 @@
          <span class="icon-bar"></span>
        </button>
        {# リンク入れたい#}
-       <a class="navbar-brand" href="{% url 'result:site_list' %}">Book Recommender(仮)</a>
+       <a class="navbar-brand" href="{% url 'history:send_account' %}" >Book Recommender(仮)</a>
      </div>
      <div id="navbar" class="navbar-collapse collapse">
        <ul class="nav navbar-nav">
@@ -115,14 +115,14 @@
 
     <div class="container">
      <div class="row">
-          <div class="col-lg-10">
+          <div class="col-lg-12">
               {% block content %}
               {{ content }}
               {% endblock %}
           </div>
-          <div class="col-lg-2">
+          {# <div class="col-lg-2">#}
               {# ここにGoogle AdSenseとか入れる#}
-          </div>
+          {# </div>#}
     </div>
     </div>
     <footer class="footer">

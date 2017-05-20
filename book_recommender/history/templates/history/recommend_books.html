@@ -1,16 +1,19 @@
 {% extends "base.html" %}
-<!-- bootstrapformを使う場合は下の一行を有効にしてね（中村） -->
-{% load bootstrap %}
+{# {% load bootstrap %}#}
 
 {% block content %}
-<h3 class="page-header">{{ url }}さんのおすすめ書籍一覧</h3>
-{# 以下にhtmlを書く#}
+{% if worked %}
+<h3 class="page-header">{{ url }} のおすすめ書籍一覧</h3>
+{% else %}
+<h3 class="page-header">不具合が発生しました。もう一度お試しください。</h3>
+{% endif %}
+
 <table class="table table-striped table-hover">
   <thead>
     <tr>
       <th>書籍名</th>
       <th>カテゴリ</th>
-      <th>ショップURL</th>
+      <th>URL</th>
       <th>類似度スコア</th>
     </tr>
   </thead>
@@ -25,5 +28,6 @@
  {% endfor %}
   </tbody>
 </table>
+<a href="{% url 'history:send_account' %}" class="btn btn-default btn-sm">戻る</a>
 
 {% endblock %}
