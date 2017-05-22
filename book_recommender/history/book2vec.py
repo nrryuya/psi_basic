@@ -4,7 +4,6 @@ from history.words import ignore_words, remove_words
 from history.user2vec import *
 
 
-# modelとかmとかこれで動く？
 def text2vec_for_book(text):
     separated_text = extract_keyword(text)
     vec = np.zeros(300)

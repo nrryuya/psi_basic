@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from readability.readability import Document
+# from readability.readability import Document
 import re
 from bs4 import BeautifulSoup
 import requests
@@ -12,12 +12,18 @@ from history.recommender import recommend
 # TODO: celeryで非同期処理する
 def recommend_books(request):
     url = request.POST['url']
-    driver = login_np(url)
+    driver = login_np()
+    driver.get(url)  # 過去Pick記事一覧
     username = get_username(driver)
     titles_df = get_picked_articles(driver)
+    driver.quit()  # ブラウザを閉じる
+    print("picked articles:")
+    print(titles_df)
     user_vector = vectorize_user(titles_df)
-    # {'name': 本の名前, 'rakuten_url': 楽天ブックスのURL, 'rakuten_category': 楽天ブックスのカテゴリ, 'score': コサイン類似度}という辞書のリストが返される。
+    print("user_vector:")
+    print(user_vector)
     try:
+        # {'name': 本の名前, 'rakuten_url': 楽天ブックスのURL, 'rakuten_category': 楽天ブックスのカテゴリ, 'score': コサイン類似度}という辞書のリストが返される。
         books = recommend(user_vector)
         worked = True
     except:  # たまにNaNになる
