@@ -30,8 +30,9 @@ def classify(features):
             #誤差の絶対値の平均を求める
             fj = features[model.labels_==j]
             abs_delta_fj = np.sqrt( ((fj - fj.mean())**2).mean() )
-            error_j = abs_delta_fj.sum()
-            exp_error_j = error_j/(model.labels_==j).sum()
+            error_j = abs_delta_fj.sum()#クラスター内の平均誤差
+            n_j = (model.labels_==j).sum()#クラスター内の要素数
+            exp_error_j = error_j/n_j#クラスターの良しあしを測ってる指標：exp_error_j
             densities.append([i,j,exp_error_j])
     densities = np.array(densities)
     densities[densities.T[2]==0] = 100
