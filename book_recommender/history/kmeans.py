@@ -1,14 +1,8 @@
-
 # coding: utf-8
-
-# In[1]:
-
 import numpy as np
 import pandas as pd
 from sklearn.cluster import KMeans
 
-
-# In[4]:
 
 # K-means クラスタリングをおこなう
 # この例では 3 つのグループに分割 (メルセンヌツイスターの乱数の種を 10 とする)
@@ -58,10 +52,8 @@ def classify(features):
     return best_cent_title
 
 
-# In[35]:
 # get_c_and_t()...centroid and title
-# classify を所定のデータ形式に対して使えるようにしたもの
-
+# classify を[title, vector]のリストに対して使えるようにしたもの
 def get_c_and_t(data):
     features = []
     titles = []
@@ -74,51 +66,34 @@ def get_c_and_t(data):
     return cent_and_title
 
 
-# In[17]:
-# 貰ったデータの再整形
-
-import re
-
-data0 = pd.read_csv("ryuya's_picked_articles")
-data0.head()
-
-
-# In[28]:
-
-# 文字列をリストに起こす
-def enlist(str_list):
-    divided_list = re.findall("[-0-9.]+", str(str_list))
-    float_list = []
-    for i in range(len(divided_list)):
-        float_list.append(float(divided_list[i]))
-    return float_list
-
-list0 = np.array(enlist(data0.vectorized_title[0]))
-list0 + np.random.standard_normal(300)
-list1 = []
-for i in range(50):
-    list1.append([i, (list0 + np.random.standard_normal(300)).tolist()])
+# classify をtitles_dfに対して使えるようにした
+def get_cluster(titles_df):
+    features = []
+    titles = []
+    for k, v in titles_df.iterrows():
+        normalized_vector = normalize(v['vectorized_title'])
+        features.append(normalized_vector)
+        titles.append(v['title'])
+    cent_and_title = classify(pd.DataFrame(features))
+    for i in range(len(cent_and_title)):
+        cent_and_title[i][1] = pd.DataFrame(titles)[cent_and_title[i][1]].T.as_matrix().tolist()[0]
+    return cent_and_title
 
 
-# In[36]:
-# get_c_and_t()　の挙動確認
+# arrayで表されたベクトルの正規化
+def normalize(vector):
+    normalized_vector = vector / np.linalg.norm(vector)
+    return normalized_vector
 
-get_c_and_t(list1)
 
-
-# In[40]:
-# classify()の挙動チェック
-# 生徒の国語・数学・英語の各得点を配列として与える
-features = pd.DataFrame([[80,  96,  54,  80,  90,  84,  79,  88,  98,  75,  92,  96,  99,
-                          75,  90,  54,  92,  88,  42,  70,  94,  52,  94,  70,  95,  95,
-                          75,  49,  83,  75,  79, 100,  88, 100,  55,  92,  97],
-                         [85, 100,  83,  98,  92,  78, 100,  92,  73,  84, 100,  92,  76,
-                          82,  94,  84,  89,  94,  99,  98,  78,  73,  88,  73,  84,  88,
-                          97,  81,  72,  73,  82,  77,  63,  50,  96,  74,  50],
-                         [100, 100,  98,  98,  91,  82,  96,  92,  72,  85,  96,  90,  91,
-                          88,  94,  87,  62,  97,  80,  70,  83,  87,  72,  80,  90,  84,
-                          89,  86,  80,  88,  76,  89,  79,  86,  84,  77,  73]]).T
-
-features.columns = ["Japanese", "Math", "English"]
-
-classify(features)
+# 正規化しないver
+def get_cluster_without_normalize(titles_df):
+    features = []
+    titles = []
+    for k, v in titles_df.iterrows():
+        features.append(v['vectorized_title'])
+        titles.append(v['title'])
+    cent_and_title = classify(pd.DataFrame(features))
+    for i in range(len(cent_and_title)):
+        cent_and_title[i][1] = pd.DataFrame(titles)[cent_and_title[i][1]].T.as_matrix().tolist()[0]
+    return cent_and_title

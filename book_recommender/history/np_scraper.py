@@ -74,7 +74,7 @@ def get_picked_articles(driver):
     last_height = driver.execute_script("return document.body.scrollHeight")
     print(last_height)
 
-    for i in range(16):  # 15回までスクロールする
+    for i in range(5):  # 5回までスクロールする
         # Scroll down to bottom
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 

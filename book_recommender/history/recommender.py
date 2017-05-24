@@ -12,7 +12,9 @@ def recommend(user_vector):
     rakuten_categories = Book.objects.values_list('rakuten_category', flat=True)
     vectors = list(map(lambda x: np.array(list(map(float, x.split(',')))),
                        Book.objects.values_list('vector', flat=True)))
-    scores = list(map(lambda x: cosine_similarity(x.reshape(1, -1), user_vector)[0][0], vectors))
+    user_vector = user_vector.reshape(1, -1)
+    scores = list(map(lambda x: cosine_similarity(
+        x.reshape(1, -1), user_vector.reshape(1, -1))[0][0], vectors))
 
     books = []
 
@@ -20,8 +22,8 @@ def recommend(user_vector):
         books.append({'name': name, 'rakuten_url': rakuten_url,
                       'rakuten_category': rakuten_category, 'score': score})
 
-    # 上位10件
-    recommended_books = sorted(books, key=lambda x: -x['score'])[0:10]
+    # 上位5件
+    recommended_books = sorted(books, key=lambda x: -x['score'])[0:5]
     return recommended_books
 
 

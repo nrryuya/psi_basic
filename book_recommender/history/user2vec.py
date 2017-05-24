@@ -59,14 +59,11 @@ def vectorize_user(titles_df):
         vector += title_vec
         count += 1
     vector = vector / count
-    return vector.reshape(1, -1)
+    return vector
 
 
-# NOTE: クラスタリングの実験用。
 # Picked記事のタイトルとその分散表現のDataFrameを返す。
-def get_title_vectors(user_url):
-    driver = login_np()
-    driver.get(user_url)  # 過去Pick記事一覧
+def get_title_vectors(driver):
     titles_df = get_picked_articles(driver)
     titles_df['vectorized_title'] = titles_df['title'].apply(text2vec)
     return titles_df

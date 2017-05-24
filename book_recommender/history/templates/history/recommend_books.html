@@ -8,6 +8,7 @@
 <h3 class="page-header">不具合が発生しました。もう一度お試しください。</h3>
 {% endif %}
 
+{% for book_list in books %}
 <table class="table table-striped table-hover">
   <thead>
     <tr>
@@ -18,16 +19,17 @@
     </tr>
   </thead>
   <tbody>
-{% for book in books %}
-    <tr>
-      <td>{{ book.name }}</td>
-      <td>{{ book.rakuten_category }}</td>
-      <td><a href="{{ book.rakuten_url }}">{{ book.rakuten_url }}</a></td>
-      <td>{{ book.score }}</td>
-    </tr>
- {% endfor %}
+    {% for book in book_list %}
+        <tr>
+          <td>{{ book.name }}</td>
+          <td>{{ book.rakuten_category }}</td>
+          <td><a href="{{ book.rakuten_url }}">{{ book.rakuten_url }}</a></td>
+          <td>{{ book.score }}</td>
+        </tr>
+    {% endfor %}
   </tbody>
 </table>
+{% endfor %}
 <div><a href="{% url 'history:send_account' %}" class="btn btn-default btn-sm">戻る</a><br></div>
 
 {% endblock %}
